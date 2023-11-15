@@ -14,7 +14,7 @@ namespace homework_due_dates_program
         private static string fileName = "homework.txt";
         static void Main()
         {
-            Console.WriteLine("Welcome to your Homework Homescreen, Select an option");
+            Console.WriteLine("\nWelcome to your Homework Homescreen, Select an option");
             for (int i = 1; i < options.Length; i++)
             {
                 Console.WriteLine(i + options[i]);
@@ -52,8 +52,13 @@ namespace homework_due_dates_program
                 string[] stringsplit = line.Split(',');
                 string homework = stringsplit[0] + "\n" + stringsplit[1] + "\n" + stringsplit[2] + "\n" + stringsplit[3] + "\n" + stringsplit[4];
                 Console.WriteLine(homework);
+                Console.WriteLine("Press any Key To Return to Menu");
+                Console.ReadKey();
+                Main();
+
             }
             fileReader.Close();
+
         }
         static void addHomework()
         {
@@ -70,24 +75,24 @@ namespace homework_due_dates_program
                 Console.WriteLine("Subject Name: {0}", homeworkName);
                 Console.WriteLine("Description: {0}", homeworkWDescription);
                 Console.WriteLine("Enter Homework Due Date: ");
-                DateTime HWDueDate = DateTime.Parse(Console.ReadLine());
+                DateTime homeworkDueDate = DateTime.Parse(Console.ReadLine());
                 Console.Clear();
                 Console.WriteLine("Subject Name: {0}", homeworkName);
                 Console.WriteLine("Description: {0}", homeworkWDescription);
-                Console.WriteLine("Due Date: {0}", HWDueDate);
-                Console.WriteLine("Are the Above Details Correct? (y/n)");
+                Console.WriteLine("Due Date: {0}", homeworkDueDate);
+                Console.WriteLine("Are the Details Above Correct? (y/n)");
                 char input = Char.Parse(Console.ReadLine());
 
                 if (input == 'y')
                 {
-                    if (HWDueDate < DateTime.Now)
+                    if (homeworkDueDate < DateTime.Now)
                     {
                         Console.WriteLine("Please Enter a Date in the Future");
                         addHomework();
                     }
-                    StreamWriter HomeworkDiary = new StreamWriter("HomeworkDocument.txt", true);
-                    HomeworkDiary.WriteLine("{0},{1},{2}, false", homeworkName, homeworkWDescription, HWDueDate);
-                    HomeworkDiary.Close();
+                    StreamWriter Homework = new StreamWriter("HomeworkDocument.txt", true);
+                    Homework.WriteLine("{0},{1},{2}, false", homeworkName, homeworkWDescription, homeworkDueDate);
+                    Homework.Close();
                     Console.WriteLine("Homework Successfully Added");
                     Thread.Sleep(500);
                     Console.WriteLine("Returning to Menu");
@@ -103,8 +108,8 @@ namespace homework_due_dates_program
             }
             catch
             {
-                Console.WriteLine("Invalid Input, Please Try Again");
-                Thread.Sleep(1000);
+                Console.WriteLine("Invalid Input");
+                Thread.Sleep(500);
                 addHomework();
             }
         }
@@ -112,6 +117,7 @@ namespace homework_due_dates_program
         static void completeHomework()
         {
             Console.Clear();
+            Console.WriteLine("Which Homework would you like to complete?");
         }
     }
 }
