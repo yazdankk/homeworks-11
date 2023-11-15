@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 
 namespace homework_due_dates_program
 {
@@ -56,28 +57,61 @@ namespace homework_due_dates_program
         }
         static void addHomework()
         {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("Enter Subject: ");
+                string homeworkName = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("Subject Name: {0}", homeworkName);
+                Console.WriteLine("Enter Homework Description: ");
+                string homeworkWDescription = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("Subject Name: {0}", homeworkName);
+                Console.WriteLine("Description: {0}", homeworkWDescription);
+                Console.WriteLine("Enter Homework Due Date: ");
+                DateTime HWDueDate = DateTime.Parse(Console.ReadLine());
+                Console.Clear();
+                Console.WriteLine("Subject Name: {0}", homeworkName);
+                Console.WriteLine("Description: {0}", homeworkWDescription);
+                Console.WriteLine("Due Date: {0}", HWDueDate);
+                Console.WriteLine("Are the Above Details Correct? (y/n)");
+                char input = Char.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter Subject Name:");
-            string newSubject = Console.ReadLine();
-            Console.WriteLine("Enter Due Date:");
-            DateTime newDate = DateTime.Parse(Console.ReadLine());
-            Console.WriteLine("Give a description of the homework:");
-            string newDescription = Console.ReadLine();
-            Console.WriteLine("Is this homework completed? (true/false):");
-            bool newChoice = bool.Parse(Console.ReadLine());
-            Console.WriteLine("Here is your homework.");
-            Console.WriteLine(newSubject + "\n" + newDate + "\n" + newDescription + "\n" + newChoice);
-
-            StreamWriter sr = new StreamWriter("homework.txt", true);
-            sr.WriteLine(newSubject + ",");
-            sr.WriteLine(newDate + ",");
-            sr.WriteLine(newDescription + ",");
-            sr.WriteLine(newChoice + ",");
-            sr.Close();
+                if (input == 'y')
+                {
+                    if (HWDueDate < DateTime.Now)
+                    {
+                        Console.WriteLine("Please Enter a Date in the Future");
+                        addHomework();
+                    }
+                    StreamWriter HomeworkDiary = new StreamWriter("HomeworkDocument.txt", true);
+                    HomeworkDiary.WriteLine("{0},{1},{2}, false", homeworkName, homeworkWDescription, HWDueDate);
+                    HomeworkDiary.Close();
+                    Console.WriteLine("Homework Successfully Added");
+                    Thread.Sleep(500);
+                    Console.WriteLine("Returning to Menu");
+                    Thread.Sleep(500);
+                    Main();
+                }
+                else
+                {
+                    Console.WriteLine("Please Enter the Homework Details Again");
+                    Thread.Sleep(500);
+                    addHomework();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Input, Please Try Again");
+                Thread.Sleep(1000);
+                addHomework();
+            }
         }
+
         static void completeHomework()
         {
-
+            Console.Clear();
         }
     }
 }
